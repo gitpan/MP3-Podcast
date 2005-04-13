@@ -8,3 +8,4 @@ examples/gen-podcast.pl
 examples/.podcast
 examples/podcast.conf
 examples/podcast.cgi
+META.yaml

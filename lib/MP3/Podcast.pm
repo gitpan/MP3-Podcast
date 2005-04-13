@@ -4,7 +4,7 @@ package MP3::Podcast;
 
 =head1 NAME
 
-  MP3::Podcast - Perl extension for podcasting directories full of MP3 files
+MP3::Podcast - Perl extension for podcasting directories full of MP3 files
 
 =head1 SYNOPSIS
 
@@ -50,7 +50,7 @@ use XML::RSS;
 use URI;
 use MP3::Info;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 # Preloaded methods go here.
 
