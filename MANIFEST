@@ -1,0 +1,10 @@
+Changes
+Makefile.PL
+MANIFEST
+lib/MP3/Podcast.pm
+README
+t/1.t
+examples/gen-podcast.pl
+examples/.podcast
+examples/podcast.conf
+examples/podcast.cgi
