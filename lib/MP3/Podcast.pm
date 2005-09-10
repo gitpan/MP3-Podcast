@@ -50,7 +50,7 @@ use XML::RSS;
 use URI;
 use MP3::Info;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 # Preloaded methods go here.
 
@@ -113,9 +113,10 @@ sub podcast {
 		    link  => $uri,
 		    enclosure => { url => $uri,
 				   size => $tag->{'SIZE'},
+                                   length => $stat[7],
 				   type => 'audio/mpeg' },
 		    pubDate => ($year+1900)."-$mon-$mday"."T"."$hour:$min:$sec",
-		    description => "Podcast $tag->{COMMENT}"
+		    description => "$tag->{COMMENT}"
 		  );
   } 
     return $rss;
@@ -132,7 +133,9 @@ Examples in the C<examples> dir.
 
 =head1 AUTHOR
 
-Juan Julian Merelo Guervos, E<lt>jmerelo@geneura.ugr.esE<gt>
+Juan Julian Merelo Guervos, E<lt>jmerelo@geneura.ugr.esE<gt>. Thanks
+to Juan Schwidth E<lt>juan@schwindt.orgE<gt> for patches, suggestion
+and encouragement. 
 
 =head1 COPYRIGHT AND LICENSE
 

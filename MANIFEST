@@ -1,11 +1,11 @@
 Changes
-Makefile.PL
-MANIFEST
+examples/.podcast
+examples/gen-podcast.pl
+examples/podcast.cgi
+examples/podcast.conf
 lib/MP3/Podcast.pm
+Makefile.PL
+MANIFEST			This list of files
+META.yml
 README
 t/1.t
-examples/gen-podcast.pl
-examples/.podcast
-examples/podcast.conf
-examples/podcast.cgi
-META.yaml
