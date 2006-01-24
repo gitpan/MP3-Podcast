@@ -50,20 +50,21 @@ use XML::RSS;
 use URI;
 use MP3::Info;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 # Preloaded methods go here.
 
 =item new
 
-  Creates the object. Takes basic info as input
+  Creates the object. Takes basic info as input: the address of the directory that will 
+  be scanned, the base URL that will be used to podcast this URL base.
 
 =cut
 
 sub new {
   my $class = shift;
-  my $dirbase = shift;
-  my $urlbase = shift;
+  my $dirbase = shift || die "Need a base dir\n";
+  my $urlbase = shift || die "Need a base URL\n";
   my $self = { dirbase => $dirbase,
 	       urlbase => $urlbase };
   bless $self, $class;
@@ -74,9 +75,9 @@ sub new {
 
   Creates the podcast for a dir, that is, an RSS file with enclosures 
   containing the MP3s it can find in that dir. Information to fill RSS 
-  fields is contained in the ID3 fields of the MP3 files.
-  Returns an XML::RSS object, which you can manipulate, if you feel 
-  like doing so
+  fields is contained in the ID3 fields of the MP3 files. 
+  Returns an XML::RSS object, which you can manipulate, if you feel  
+  like doing so.
   
 =cut
 
@@ -86,6 +87,7 @@ sub podcast {
   my $title = shift || die "Can't find podcast title\n";
   my $creator = shift || 'PerlPodder';
   my $description = shift || $title;
+  my $sort = shift; 
   my $rss = XML::RSS->new( version => '2.0',
 			   encoding=> 'iso-8859-1' );
   my $urlbase = $self->{'urlbase'};
@@ -99,10 +101,15 @@ sub podcast {
   my $poddir="$dirbase/$dir";
   my $podurl="$urlbase/$dir";
   
-  #Leer el directorio
-  opendir(D, "$poddir") || die "No se puede abrir directorio $poddir: $!\n";
-  while ( my $file = readdir(D) ) {
-    next if $file !~ /\.mp3$/i;
+  #Read directory
+  opendir(D, "$poddir") || die "Couldn't open directory $poddir: $!\n";
+  my @files = readdir(D);
+  closedir(D) || die "Couldn't close dir $poddir\n";
+  if ( $sort ) {
+        @files = reverse(sort(@files));
+  } 
+  foreach my $file ( @files ) {
+    next if $file !~ /\.[Mm][Pp]3$/i;
     my $filePath="$poddir/$file";
     my @stat = stat($filePath);
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($stat[9]);
@@ -119,7 +126,7 @@ sub podcast {
 		    description => "$tag->{COMMENT}"
 		  );
   } 
-    return $rss;
+  return $rss;
 }
 
 'All\'s well that ends well';
@@ -134,8 +141,8 @@ Examples in the C<examples> dir.
 =head1 AUTHOR
 
 Juan Julian Merelo Guervos, E<lt>jmerelo@geneura.ugr.esE<gt>. Thanks
-to Juan Schwidth E<lt>juan@schwindt.orgE<gt> for patches, suggestion
-and encouragement. 
+to Juan Schwindt E<lt>juan@schwindt.orgE<gt> and Matt Domsch
+E<lt>matt@domsch.comE<gt> for patches, suggestion and encouragement.
 
 =head1 COPYRIGHT AND LICENSE
 

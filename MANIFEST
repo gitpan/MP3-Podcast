@@ -1,6 +1,7 @@
 Changes
 examples/.podcast
 examples/gen-podcast.pl
+examples/podcast-sort.pl
 examples/podcast.cgi
 examples/podcast.conf
 lib/MP3/Podcast.pm
