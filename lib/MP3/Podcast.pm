@@ -1,7 +1,5 @@
 package MP3::Podcast;
 
-# Below is stub documentation for your module. You'd better edit it!
-
 =head1 NAME
 
 MP3::Podcast - Perl extension for podcasting directories full of MP3 files
@@ -50,7 +48,7 @@ use XML::RSS;
 use URI;
 use MP3::Info;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 # Preloaded methods go here.
 
@@ -122,8 +120,8 @@ sub podcast {
 				   size => $tag->{'SIZE'},
                                    length => $stat[7],
 				   type => 'audio/mpeg' },
-		    pubDate => ($year+1900)."-$mon-$mday"."T"."$hour:$min:$sec",
-		    description => "$tag->{COMMENT}"
+		    pubDate => ($year+1900)."-".($mon+1)."-$mday"."T"."$hour:$min:$sec",
+		    description => "Podcast $tag->{COMMENT}"
 		  );
   } 
   return $rss;
@@ -140,9 +138,10 @@ Examples in the C<examples> dir.
 
 =head1 AUTHOR
 
-Juan Julian Merelo Guervos, E<lt>jmerelo@geneura.ugr.esE<gt>. Thanks
-to Juan Schwindt E<lt>juan@schwindt.orgE<gt> and Matt Domsch
-E<lt>matt@domsch.comE<gt> for patches, suggestion and encouragement.
+Juan Julian Merelo Guervos, E<lt>jmerelo {at} geneura.ugr.esE<gt>. Thanks
+to Juan Schwindt E<lt>juan {at} schwindt.orgE<gt>, Matt Domsch
+E<lt>matt {at} domsch.comE<gt> and Gavin Hurlbut E<lt>gjhurlbu {at}
+gmail.comE<gt> for patches, suggestion and encouragement.  
 
 =head1 COPYRIGHT AND LICENSE
 
