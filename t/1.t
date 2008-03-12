@@ -8,7 +8,7 @@
 # change 'tests => 1' to 'tests => last_test_to_print';
 use lib '../lib';
 
-use Test::More tests => 2;
+use Test::More qw(no_plan);
 BEGIN { use_ok('MP3::Podcast') };
 
 #########################
@@ -16,5 +16,21 @@ BEGIN { use_ok('MP3::Podcast') };
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $pod = MP3::Podcast->new('/home/jmerelo/public_html/muzak','http://geneura.ugr.es/~jmerelo/muzak');
-isa_ok( $pod, MP3::Podcast );
+my $pod = MP3::Podcast->new('/home/jmerelo/public_html/muzak','http://geneura.ugr.es/~jmerelo/muzak'); #Using dummy dirs
+isa_ok( $pod, 'MP3::Podcast' );
+
+
+diag "\nPlease enter a base directory with MP3s to create the podcast, just enter if you want to skip this test\n";
+my $dir = <STDIN>;
+chop($dir);
+if ( $dir ) {
+  $pod = MP3::Podcast->new($dir,'http://this.is/a/url');
+  diag "\nPlease enter a subdir with MP3s to create the podcast\n";
+  my $subdir = <STDIN>;
+  chop($subdir);
+  my $rss =  $pod->podcast($subdir, "Test");
+  isa_ok( $rss, 'XML::RSS' );
+  is( $rss->{'items'}->[0]->{title} ne '', 1, "RSS" );
+}
+
+

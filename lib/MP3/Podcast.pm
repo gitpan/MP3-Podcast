@@ -47,8 +47,9 @@ use warnings;
 use XML::RSS;
 use URI;
 use MP3::Info;
+use POSIX qw(strftime);
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 # Preloaded methods go here.
 
@@ -87,14 +88,14 @@ sub podcast {
   my $description = shift || $title;
   my $sort = shift; 
   my $rss = XML::RSS->new( version => '2.0',
-			   encoding=> 'iso-8859-1' );
+                           encoding=> 'UTF-8' );
   my $urlbase = $self->{'urlbase'};
   my $dirbase = $self->{'dirbase'};
   
   $rss->channel(title => $title,
                 link => "$urlbase/$dir",
                 publisher => $creator,
-		description => $description );
+                description => $description );
   
   my $poddir="$dirbase/$dir";
   my $podurl="$urlbase/$dir";
@@ -110,19 +111,17 @@ sub podcast {
     next if $file !~ /\.[Mm][Pp]3$/i;
     my $filePath="$poddir/$file";
     my @stat = stat($filePath);
-    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($stat[9]);
+    my $pubdate = strftime("%a, %e %b %Y %T %z", localtime($stat[9]));
     my $tag = get_mp3tag($filePath) or die "No TAG info for $filePath";
     my ($mp3title) = ( $file =~ /^(.+?)\.mp3/i );
     my $uri = URI->new("$podurl/$file");
     $rss->add_item( title => $tag->{'TITLE'} || $mp3title,
-		    link  => $uri,
-		    enclosure => { url => $uri,
-				   size => $tag->{'SIZE'},
+                    link  => $uri,
+                    enclosure => { url => $uri,
                                    length => $stat[7],
-				   type => 'audio/mpeg' },
-		    pubDate => ($year+1900)."-".($mon+1)."-$mday"."T"."$hour:$min:$sec",
-		    description => "Podcast $tag->{COMMENT}"
-		  );
+                                   type => 'audio/mpeg' },
+                    pubDate => $pubdate,
+                    description => "Podcast $tag->{COMMENT}" );
   } 
   return $rss;
 }
@@ -140,8 +139,8 @@ Examples in the C<examples> dir.
 
 Juan Julian Merelo Guervos, E<lt>jmerelo {at} geneura.ugr.esE<gt>. Thanks
 to Juan Schwindt E<lt>juan {at} schwindt.orgE<gt>, Matt Domsch
-E<lt>matt {at} domsch.comE<gt> and Gavin Hurlbut E<lt>gjhurlbu {at}
-gmail.comE<gt> for patches, suggestion and encouragement.  
+E<lt>matt {at} domsch.comE<gt>, Gavin Hurlbut E<lt>gjhurlbu {at}
+gmail.comE<gt>  and Eric Johnson E<lt>eric {at} el-studio.com E<gt>  for patches, suggestion and encouragement.
 
 =head1 COPYRIGHT AND LICENSE
 
