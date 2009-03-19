@@ -1,3 +1,7 @@
+2009-03-19  Juan Julian Merelo Guervos  <jmerelo@geneura.ugr.es>
+
+	* Makefile.PL: Added URI to prerrequisites.
+
 2006-01-24  JJ Merelo  <jmerelo@geneura.ugr.es>
 
 	* MANIFEST: 

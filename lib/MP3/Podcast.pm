@@ -16,25 +16,25 @@ MP3::Podcast - Perl extension for podcasting directories full of MP3 files
 
 =head1 ABSTRACT
 
-  Create podcast easily from directories, using MP3's own info.
+Create podcast easily from directories, using MP3's own info.
 
 =head1 DESCRIPTION
 
-  Creates a podcast, basically a RSS feed for a directory full of MP3 files.
-  Takes information from the MP3 files themselves; it needs MP3 files with 
-  their ID tags completed.
+Creates a podcast, basically a RSS feed for a directory full of MP3 files.
+Takes information from the MP3 files themselves; it needs MP3 files with 
+their ID tags completed.
 
-  The bundle includes two programs in the C<examples> dir: C<gen-podcast.pl>, 
-  used this way:
+The bundle includes two programs in the C<examples> dir: C<gen-podcast.pl>, 
+used this way:
   bash% ./gen-podcast.pl <dirbase> <urlbase> <dir to scan>
-  that generates a static RSS from a dir, and C<podcast.cgi>, to use from a
-  webserver. To use it, copy podcast.cgi and podcast.conf to a cgi-serviceable
-  dir; edit podcast.conf to your liking and copy it to the directory you want.
-  Copy also .podcast to the directory you want served as a podcast (this is done
-  mainly to avoid dir-creeping), and also drop
-  edit also the path to fetch the  MP3::Podcast lib, and call it with 
-  C<http://my.host.com/cgi-bin/podcast.cgi/<dirname>.rss
-  The name of the directory to scan will be taken from the URI
+which generates a static RSS from a dir, and C<podcast.cgi>, to use from a
+webserver. To use it, copy C<podcast.cgi> and C<podcast.conf> to a cgi-serviceable
+dir; edit C<podcast.conf> to your liking and copy it to the directory you want.
+Copy also C<.podcast> to the directory you want served as a podcast (this is done
+mainly to avoid dir-creeping), 
+edit  the path to fetch the  MP3::Podcast lib, and call it with 
+C<http://my.host.com/cgi-bin/podcast.cgi/[dirname].rss>
+The name of the directory to scan will be taken from the URI
 
 =head1 METHODS
 
@@ -49,14 +49,14 @@ use URI;
 use MP3::Info;
 use POSIX qw(strftime);
 
-our $VERSION = '0.06';
+our $VERSION = '0.06_1';
 
 # Preloaded methods go here.
 
 =item new
 
-  Creates the object. Takes basic info as input: the address of the directory that will 
-  be scanned, the base URL that will be used to podcast this URL base.
+Creates the object. Takes basic info as input: the address of the directory that will 
+be scanned, the base URL that will be used to podcast this URL base.
 
 =cut
 
@@ -72,11 +72,11 @@ sub new {
 
 =item podcast
 
-  Creates the podcast for a dir, that is, an RSS file with enclosures 
-  containing the MP3s it can find in that dir. Information to fill RSS 
-  fields is contained in the ID3 fields of the MP3 files. 
-  Returns an XML::RSS object, which you can manipulate, if you feel  
-  like doing so.
+Creates the podcast for a dir, that is, an RSS file with enclosures 
+containing the MP3s it can find in that dir. Information to fill RSS 
+fields is contained in the ID3 fields of the MP3 files. 
+Returns an XML::RSS object, which you can manipulate, if you feel  
+like doing so.
   
 =cut
 
@@ -131,9 +131,12 @@ sub podcast {
 =head1 SEE ALSO
 
 Info on podcasting: 
-Podcast in perl: http://escripting.com/podcast/
-Podcastamatic: http://bradley.chicago.il.us/projects/podcastamatic/readme.html
-Examples in the C<examples> dir.
+=over 4
+=item Podcast in perl: http://escripting.com/podcast/
+=item Podcastamatic: http://bradley.chicago.il.us/projects/podcastamatic/readme.html
+=item Examples in the C<examples> dir.
+=back
+
 
 =head1 AUTHOR
 
@@ -144,9 +147,9 @@ gmail.comE<gt>  and Eric Johnson E<lt>eric {at} el-studio.com E<gt>  for patches
 
 =head1 COPYRIGHT AND LICENSE
 
-  Copyright 2005 by Juan Julian Merelo Guervos
+Copyright 2005 by Juan Julian Merelo Guervos
 
-  This library is free software; you can redistribute it and or modify
-  it under the same terms as Perl itself. 
+This library is free software; you can redistribute it and or modify
+it under the same terms as Perl itself. 
 
 =cut
