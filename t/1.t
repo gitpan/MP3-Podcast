@@ -19,18 +19,12 @@ BEGIN { use_ok('MP3::Podcast') };
 my $pod = MP3::Podcast->new('/home/jmerelo/public_html/muzak','http://geneura.ugr.es/~jmerelo/muzak'); #Using dummy dirs
 isa_ok( $pod, 'MP3::Podcast' );
 
+my $dir = ( -d 't' )? 't':'.';
+$pod = MP3::Podcast->new($dir,'http://animaadversa.es');
+my $subdir = 'music';
+my $rss =  $pod->podcast($subdir, "Anima Adversa: El Otro Yo");
+isa_ok( $rss, 'XML::RSS' );
+is( $rss->{'items'}->[0]->{title}, 'En tus Brazos', "RSS" );
 
-diag "\nPlease enter a base directory with MP3s to create the podcast, just enter if you want to skip this test\n";
-my $dir = <STDIN>;
-chop($dir);
-if ( $dir ) {
-  $pod = MP3::Podcast->new($dir,'http://this.is/a/url');
-  diag "\nPlease enter a subdir with MP3s to create the podcast\n";
-  my $subdir = <STDIN>;
-  chop($subdir);
-  my $rss =  $pod->podcast($subdir, "Test");
-  isa_ok( $rss, 'XML::RSS' );
-  is( $rss->{'items'}->[0]->{title} ne '', 1, "RSS" );
-}
 
 

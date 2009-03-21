@@ -30,11 +30,15 @@ used this way:
 which generates a static RSS from a dir, and C<podcast.cgi>, to use from a
 webserver. To use it, copy C<podcast.cgi> and C<podcast.conf> to a cgi-serviceable
 dir; edit C<podcast.conf> to your liking and copy it to the directory you want.
-Copy also C<.podcast> to the directory you want served as a podcast (this is done
-mainly to avoid dir-creeping), 
+Copy also C<.podcast> to the directory you want served as a podcast
+(this is done mainly to avoid dir-creeping),
 edit  the path to fetch the  MP3::Podcast lib, and call it with 
 C<http://my.host.com/cgi-bin/podcast.cgi/[dirname].rss>
 The name of the directory to scan will be taken from the URI
+
+This new version includes in the test directory MP3s by the Spanish
+    group L<Anima Adversa|http://animaadversa.es>, which are freely
+    distributed under a CC license.
 
 =head1 METHODS
 
@@ -49,13 +53,14 @@ use URI;
 use MP3::Info;
 use POSIX qw(strftime);
 
-our $VERSION = '0.06_1';
+our $VERSION = '0.06_1aa';
 
 # Preloaded methods go here.
 
 =item new
 
-Creates the object. Takes basic info as input: the address of the directory that will 
+Creates the object. Takes basic info as input: the address of the
+    directory that will
 be scanned, the base URL that will be used to podcast this URL base.
 
 =cut
@@ -84,7 +89,7 @@ sub podcast {
   my $self = shift;
   my $dir = shift || die "Can't find dir\n";
   my $title = shift || die "Can't find podcast title\n";
-  my $creator = shift || 'PerlPodder';
+  my $creator = shift || "MP3::Podcast $VERSION";
   my $description = shift || $title;
   my $sort = shift; 
   my $rss = XML::RSS->new( version => '2.0',
@@ -124,17 +129,23 @@ sub podcast {
                     description => "Podcast $tag->{COMMENT}" );
   } 
   return $rss;
+
 }
 
 'All\'s well that ends well';
 
 =head1 SEE ALSO
 
-Info on podcasting: 
+Info on podcasting:
+
 =over 4
+
 =item Podcast in perl: http://escripting.com/podcast/
+
 =item Podcastamatic: http://bradley.chicago.il.us/projects/podcastamatic/readme.html
+
 =item Examples in the C<examples> dir.
+
 =back
 
 
@@ -143,13 +154,14 @@ Info on podcasting:
 Juan Julian Merelo Guervos, E<lt>jmerelo {at} geneura.ugr.esE<gt>. Thanks
 to Juan Schwindt E<lt>juan {at} schwindt.orgE<gt>, Matt Domsch
 E<lt>matt {at} domsch.comE<gt>, Gavin Hurlbut E<lt>gjhurlbu {at}
-gmail.comE<gt>  and Eric Johnson E<lt>eric {at} el-studio.com E<gt>  for patches, suggestion and encouragement.
+gmail.comE<gt>  and Eric Johnson E<lt>eric {at} el-studio.com E<gt>
+    for patches, suggestion and encouragement.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2005 by Juan Julian Merelo Guervos
+Copyright 2005-2009 by Juan Julian Merelo Guervos
 
 This library is free software; you can redistribute it and or modify
-it under the same terms as Perl itself. 
+it under the same terms as Perl itself.
 
 =cut
